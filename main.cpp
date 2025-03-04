@@ -14,6 +14,12 @@ int WinMain()
     rectangle.setFillColor(Color::Blue);
     rectangle.setSize({ 100.f, 100.f });
     rectangle.setPosition({250.f, 100.f});
+    CircleShape circle(50.f);
+    circle.setPointCount(100);
+    circle.setPosition({ 0.f, 250.f });
+    const Texture metalTex("metal.JPG");
+    circle.setTexture(&metalTex);
+    circle.setTextureRect(IntRect({ 10, 10 }, { 100, 100 }));
 
 
     while (window.isOpen())
@@ -29,6 +35,7 @@ int WinMain()
         window.clear();
         window.draw(shape);
         window.draw(rectangle);
+        window.draw(circle);
         window.display();
     }
 }
