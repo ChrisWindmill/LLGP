@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "Character.h"
 using namespace sf;
 using namespace std;
 
@@ -7,7 +8,7 @@ using namespace std;
 */
 int WinMain()
 {
-    RenderWindow window(VideoMode({ 400, 400 }), "SFML works!");
+    RenderWindow window(VideoMode({ 800, 800 }), "SFML works!");
     CircleShape shape(100.f, 9);
     shape.setFillColor(Color::Magenta);
     RectangleShape rectangle({ 50.f, 50.f });
@@ -21,6 +22,7 @@ int WinMain()
     circle.setTexture(&metalTex);
     circle.setTextureRect(IntRect({ 10, 10 }, { 100, 100 }));
 
+    Character player;
 
     while (window.isOpen())
     {
@@ -31,6 +33,8 @@ int WinMain()
             if (event->is<Event::Closed>())
                 window.close();
         }
+
+        player.moveChar(circle);
 
         window.clear();
         window.draw(shape);
