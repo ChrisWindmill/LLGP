@@ -5,28 +5,84 @@ float Character::moveChar(CircleShape& character)
 
     if (Keyboard::isKeyPressed(Keyboard::Key::D))
     {
-        m_direction = -1;
+        m_directionX = -1;
         m_isFacingRight = true;
-        m_currentVeloc = m_currentVeloc + m_accel;
-        character.move({m_currentVeloc, 0.f});
-        cout << "right";
+        m_currentVelocX = m_currentVelocX + m_accel;
+        if (m_currentVelocX > m_maxVelocX)
+        {
+            m_currentVelocX = m_maxVelocX;
+        }
     }
-    if (Keyboard::isKeyPressed(Keyboard::Key::A))
+    else if (Keyboard::isKeyPressed(Keyboard::Key::A))
     {
-        m_direction = 1;
-        m_currentVeloc = m_currentVeloc - m_accel;
+        m_directionX = 1;
+        m_currentVelocX = m_currentVelocX - m_accel;
         m_isFacingRight = false;
-        character.move({m_currentVeloc, 0.f });
-        cout << "left";
+        if (m_currentVelocX < m_maxVelocX * -1.f)
+        {
+            m_currentVelocX = m_maxVelocX * -1.f;
+        }
     }
-    if (Keyboard::isKeyPressed(Keyboard::Key::W))
+    else
     {
-        character.move({ 0.f, -0.1f });
-    }
-    if (Keyboard::isKeyPressed(Keyboard::Key::S))
-    {
-        character.move({ 0.f, 0.1f });
+        if (m_currentVelocX > 0)
+        {
+            m_currentVelocX -= m_accelDecay;
+        }
+        else if (m_currentVelocX < 0)
+        {
+            m_currentVelocX += m_accelDecay;
+        }
+        else { m_currentVelocX = 0.f; }
     }
 
-	return m_currentVeloc;
+
+    if (Keyboard::isKeyPressed(Keyboard::Key::Space))
+    {
+        if (m_jumpCount < m_maxJumps && m_jumpTimer < m_maxJumpTime)
+        {
+            for (m_jumpTimer; m_jumpTimer < m_maxJumpTime;)
+            {
+                m_currentVelocY += m_jumpForce;
+                m_jumpTimer += dt.asSeconds();
+                cout << m_jumpTimer;
+
+                if (m_currentVelocY > m_maxVelocY)
+                {
+                    m_currentVelocY = m_maxVelocY;
+                }
+                if (m_jumpTimer > m_maxJumpTime)
+                {
+                    m_jumpCount++;
+                
+                }
+            }
+
+            //if (m_currentVelocY < m_maxVelocY)
+            //{
+            //    m_currentVelocY = m_maxVelocY;
+            //}
+        }
+        else
+        {
+            m_currentVelocY += m_gravity;
+            if (m_currentVelocY > m_maxVelocY)
+            {
+                m_currentVelocY = m_maxVelocY;
+            }
+        }
+    }
+    else
+    {
+        m_jumpTimer = 0.f;
+        m_currentVelocY += m_gravity;
+        if (m_currentVelocY > m_maxVelocY)
+        {
+            m_currentVelocY = m_maxVelocY;
+        }
+    }
+
+
+    character.move({ m_currentVelocX * dt.asSeconds(), m_currentVelocY * dt.asSeconds()});
+	return 0;
 }
