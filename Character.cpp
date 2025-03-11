@@ -20,18 +20,18 @@ float Character::moveChar(CircleShape& character)
         m_isFacingRight = false;
         if (m_currentVelocX < m_maxVelocX * -1.f)
         {
-            m_currentVelocX = m_maxVelocX * -1.f;
+            m_currentVelocX = (m_maxVelocX * -1.f) * dt.asSeconds();
         }
     }
     else
     {
         if (m_currentVelocX > 0)
         {
-            m_currentVelocX -= m_accelDecay;
+            m_currentVelocX -= (m_accelDecay * dt.asSeconds());
         }
         else if (m_currentVelocX < 0)
         {
-            m_currentVelocX += m_accelDecay;
+            m_currentVelocX += (m_accelDecay * dt.asSeconds());
         }
         else { m_currentVelocX = 0.f; }
     }
@@ -43,7 +43,7 @@ float Character::moveChar(CircleShape& character)
         {
             for (m_jumpTimer; m_jumpTimer < m_maxJumpTime;)
             {
-                m_currentVelocY += m_jumpForce;
+                m_currentVelocY += (m_jumpForce * dt.asSeconds());
                 m_jumpTimer += dt.asSeconds();
                 cout << m_jumpTimer;
 
@@ -63,24 +63,24 @@ float Character::moveChar(CircleShape& character)
             //    m_currentVelocY = m_maxVelocY;
             //}
         }
-        else
-        {
-            m_currentVelocY += m_gravity;
-            if (m_currentVelocY > m_maxVelocY)
-            {
-                m_currentVelocY = m_maxVelocY;
-            }
-        }
+        //else
+        //{
+        //    m_currentVelocY += m_gravity;
+        //    if (m_currentVelocY > m_maxVelocY)
+        //    {
+        //        m_currentVelocY = m_maxVelocY;
+        //    }
+        //}
     }
-    else
-    {
-        m_jumpTimer = 0.f;
-        m_currentVelocY += m_gravity;
-        if (m_currentVelocY > m_maxVelocY)
-        {
-            m_currentVelocY = m_maxVelocY;
-        }
-    }
+    //else
+    //{
+    //    m_jumpTimer = 0.f;
+    //    m_currentVelocY += m_gravity;
+    //    if (m_currentVelocY > m_maxVelocY)
+    //    {
+    //        m_currentVelocY = m_maxVelocY;
+    //    }
+    //}
 
 
     character.move({ m_currentVelocX * dt.asSeconds(), m_currentVelocY * dt.asSeconds()});

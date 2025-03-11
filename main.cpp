@@ -8,7 +8,7 @@ using namespace std;
 */
 int WinMain()
 {
-    RenderWindow window(VideoMode({ 800, 800 }), "SFML works!");
+    RenderWindow window(VideoMode({ 1920, 1080 }), "SFML works!");
     CircleShape shape(100.f, 9);
     shape.setFillColor(Color::Magenta);
     RectangleShape rectangle({ 50.f, 50.f });
@@ -23,6 +23,13 @@ int WinMain()
     circle.setTextureRect(IntRect({ 10, 10 }, { 100, 100 }));
 
     Character player;
+
+    const Image characters("assets/fly1.png");
+    Texture characterText;
+
+    bool result = characterText.loadFromImage(characters, false, IntRect({ 0, 0}, {192, 112 }));
+    Sprite spritey(characterText);
+    spritey.scale({ 2.f, 2.f });
 
     while (window.isOpen())
     {
@@ -40,6 +47,7 @@ int WinMain()
         window.draw(shape);
         window.draw(rectangle);
         window.draw(circle);
+        window.draw(spritey);
         window.display();
     }
 }
